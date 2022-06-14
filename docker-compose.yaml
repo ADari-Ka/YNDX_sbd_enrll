@@ -1,14 +1,21 @@
 version: "3.8"
 
 services:
+  web_app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres_db
+
   postgres_db:
     image: postgres
     container_name: enrl_db
     restart: always
     environment:
-      POSTGRES_DB: test
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: test
+      POSTGRES_DB: yndxe
+      POSTGRES_USER: adarika
+      POSTGRES_PASSWORD: imgoingtothebackendschool
     ports:
       - 5432:5432
     volumes:
