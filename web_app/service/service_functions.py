@@ -1,8 +1,8 @@
 from adapters import repositories
 
 
-def import_nodes(entities: list, repo: repositories.AbstractRepository):
-    pass
+def import_node(node, repo: repositories.AbstractRepository):
+    repo.add(node)
 
 
 def delete_node(entity, repo: repositories.AbstractRepository):

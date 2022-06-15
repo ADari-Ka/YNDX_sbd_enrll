@@ -31,8 +31,10 @@ class SQLalchemyRepository(AbstractRepository):
     def get(self):
         pass
 
-    def add(self):
-        pass
+    def add(self, node):
+        if self.session.query(model.OfferAndCategory).filter_by(uid=node.uuid).all():
+            raise AttributeError
+        self.session.add(node)
 
     def delete(self):
         pass

@@ -1,6 +1,6 @@
 import pytest
 
-from web_app.entrypoints.routers.parser import parse_tools
+from web_app.entrypoints.routers.units_parser import parse_tools
 
 
 def test_common_parser_correct():
