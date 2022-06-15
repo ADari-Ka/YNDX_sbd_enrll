@@ -12,7 +12,7 @@ from .utils import node_create
 
 from .responses_content import error400
 
-router = APIRouter(prefix="/nodes")
+router = APIRouter()
 
 
 @router.post("/imports")
@@ -20,10 +20,10 @@ async def import_nodes(request: Request):
     session = get_session()
     repo = settings.get_repository(session)
 
-    request_data = request.json()
+    request_data = await request.json()
     try:
-        await parser_match(request_data, importParser)
-        await parser_match(request_data, importUnitParser)
+        parser_match(request_data, importParser)
+        parser_match(request_data, importUnitParser)
     except ParseException:
         return JSONResponse(status_code=400, content=error400)
 
@@ -33,6 +33,6 @@ async def import_nodes(request: Request):
             service_functions.import_node(node, repo)
         return Response(status_code=200)
     except Exception:
-        return JSONResponse(status_code=400, content=400)
+        return JSONResponse(status_code=400, content=error400)
     finally:
         session.commit()

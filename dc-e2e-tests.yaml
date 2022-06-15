@@ -2,6 +2,6 @@ version: "3.8"
 
 services:
   test_client:
-    build: e2e-tests
+    build: tests/e2e/
     depends_on:
       - web_app

@@ -8,7 +8,7 @@ from enum import Enum
 class OfferAndCategory:
     uid: str
     name: str
-    _date: datetime
+    date: datetime
     parentId: str
     type: str
     price: int
@@ -38,3 +38,11 @@ class OfferAndCategory:
     @date.setter
     def date(self, new):
         self._date = datetime.fromisoformat(new)
+
+    def __add__(self, other):
+        self.name = other.name
+        self.date = other.date
+        self.parentId = other.parentId
+        self.type = other.type
+        self.price = other.price
+        self.children = other.children

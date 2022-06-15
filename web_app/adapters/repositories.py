@@ -31,10 +31,20 @@ class SQLalchemyRepository(AbstractRepository):
     def get(self):
         pass
 
-    def add(self, node):
-        if self.session.query(model.OfferAndCategory).filter_by(uid=node.uuid).all():
+    def add(self):
+        pass
+
+    def import_nodes(self, node):
+        if node.parentId and \
+                self.session.query(OfferAndCategory).filter_by(uid=node.parentId).one().type == "OFFER":
             raise AttributeError
-        self.session.add(node)
+
+        existed_ = self.session.query(OfferAndCategory).filter_by(uid=node.uid).all()
+        if existed_:
+            existed_node = existed_[0]
+            existed_node = existed_node + node
+        else:
+            self.session.add(node)
 
     def delete(self):
         pass

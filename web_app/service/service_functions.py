@@ -2,7 +2,7 @@ from adapters import repositories
 
 
 def import_node(node, repo: repositories.AbstractRepository):
-    repo.add(node)
+    repo.import_nodes(node)
 
 
 def delete_node(entity, repo: repositories.AbstractRepository):

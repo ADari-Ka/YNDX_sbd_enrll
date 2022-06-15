@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, Date, ARRAY
+from sqlalchemy import Table, Column, Integer, String, ARRAY
 from sqlalchemy.orm import registry
 
 from model import OfferAndCategory
@@ -10,7 +10,7 @@ offer_and_category_table = Table(
     mapper_registry.metadata,
     Column("uid", String, primary_key=True,),
     Column("name", String, nullable=False),
-    Column("date", Date, nullable=False),
+    Column("_date", String, nullable=False),
     Column("parentId", String, nullable=True),
     Column("type", String),
     Column("price", Integer),
