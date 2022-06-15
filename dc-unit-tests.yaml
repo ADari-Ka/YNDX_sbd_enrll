@@ -2,4 +2,4 @@ version: "3.8"
 
 services:
   web_app:
-    entrypoint: ["python", "-m", "pytest", "-v", "tests"]
+    entrypoint: ["python", "-m", "pytest", "-v", "tests/unit"]

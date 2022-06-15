@@ -1,11 +1,11 @@
-from .parse_tools import ParseFields
+from typing import Union
 
-from model.offer_category import Type
+from .parse_tools import ParseFields
 
 importParser = ParseFields([('items', list), ('updateDate', str)])
 
 importUnitParser = ParseFields([("id", str),
                                 ("name", str),
-                                ("type", Type)],
+                                ("type", Union["CATEGORY", "OFFER"])],
                                listed=True,
                                data_getter='items')

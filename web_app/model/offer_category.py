@@ -5,22 +5,16 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-@dataclass(frozen=True)
-class Type(Enum):
-    OFFER = False
-    CATEGORY = True
-
-
 class OfferAndCategory:
     uid: str
     name: str
     _date: datetime
     parentId: str
-    type: Type
+    type: str
     price: int
     children: list
 
-    def __int__(self, uid: str, name: str, e_type: Type, date: str):
+    def __int__(self, uid: str, name: str, e_type: str, date: str):
         self.uid = uid
         self.name = name
         self.type = e_type
