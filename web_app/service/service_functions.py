@@ -21,7 +21,10 @@ def delete_node(node_id, repo: repositories.AbstractRepository):
 
 
 def get_node(node_id, repo: repositories.AbstractRepository):
-    pass
+    if not re.match(UUID_RE, node_id):
+        raise ValueError
+
+    return repo.get(node_id)
 
 
 def get_sales(repo: repositories.AbstractRepository):

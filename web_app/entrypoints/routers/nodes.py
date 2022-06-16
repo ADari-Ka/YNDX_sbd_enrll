@@ -52,3 +52,19 @@ async def delete_node(id: str):
         return JSONResponse(status_code=404, content=error404)
     finally:
         session.commit()
+
+
+@router.get('/nodes/{id}')
+async def get_node(id: str):
+    session = get_session()
+    repo = settings.get_repository(session)
+
+    try:
+        node = service_functions.get_node(id, repo)
+        JSONResponse(status_code=200, content=node.to_dict())
+    except ValueError:
+        return JSONResponse(status_code=400, content=error400)
+    except LookupError:
+        return JSONResponse(status_code=404, content=error404)
+    finally:
+        session.commit()
