@@ -10,7 +10,7 @@ from .units_parser.parsers import importUnitParser, importParser
 
 from .utils import node_create
 
-from .responses_content import error400
+from .responses_content import error400, error404
 
 router = APIRouter()
 
@@ -34,5 +34,21 @@ async def import_nodes(request: Request):
         return Response(status_code=200)
     except Exception:
         return JSONResponse(status_code=400, content=error400)
+    finally:
+        session.commit()
+
+
+@router.delete('/delete/{id}')
+async def delete_node(id: str):
+    session = get_session()
+    repo = settings.get_repository(session)
+
+    try:
+        service_functions.delete_node(id, repo)
+        return Response(status_code=200)
+    except ValueError:
+        return JSONResponse(status_code=400, content=error400)
+    except LookupError:
+        return JSONResponse(status_code=404, content=error404)
     finally:
         session.commit()

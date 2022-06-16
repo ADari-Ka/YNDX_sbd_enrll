@@ -46,5 +46,18 @@ class SQLalchemyRepository(AbstractRepository):
         else:
             self.session.add(node)
 
-    def delete(self):
-        pass
+    def delete(self, node_id):
+        nodes = self.session.query(OfferAndCategory).filter_by(uid=node_id).all()
+        if not nodes:
+            raise LookupError
+
+        current_node = nodes[0]
+
+        children = self.session.query(OfferAndCategory).filter_by(parentId=node_id).all()
+
+        for node in children:
+            if self.session.query(OfferAndCategory).filter_by(parentId=node.uid).all():
+                self.delete(node.uid)
+            self.session.delete(node)
+
+        self.session.delete(current_node)

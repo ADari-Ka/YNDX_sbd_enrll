@@ -6,6 +6,6 @@ importParser = ParseFields([('items', list), ('updateDate', str)])
 
 importUnitParser = ParseFields([("id", str),
                                 ("name", str),
-                                ("type", Union["CATEGORY", "OFFER"])],
+                                ("type", str)],
                                listed=True,
                                data_getter='items')
