@@ -16,3 +16,5 @@ get_session = sessionmaker(bind=db_engine)
 
 orm.mapper_registry.metadata.create_all(bind=db_engine)
 orm.configure_mappers()
+
+orm.base_node_create(get_session())

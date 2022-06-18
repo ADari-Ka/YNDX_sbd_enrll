@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request, Response
 from fastapi.responses import JSONResponse
 
+from typing import Union
+
 from fastapi_app import settings, get_session
 
 from service import service_functions
@@ -31,6 +33,7 @@ async def import_nodes(request: Request):
         for element in request_data['items']:
             node = node_create(element, request_data['updateDate'])
             service_functions.import_node(node, repo)
+        session.commit()
         return Response(status_code=200)
     except Exception:
         return JSONResponse(status_code=400, content=error400)
@@ -45,6 +48,7 @@ async def delete_node(id: str):
 
     try:
         service_functions.delete_node(id, repo)
+        session.commit()
         return Response(status_code=200)
     except ValueError:
         return JSONResponse(status_code=400, content=error400)
@@ -61,10 +65,21 @@ async def get_node(id: str):
 
     try:
         node = service_functions.get_node(id, repo)
-        JSONResponse(status_code=200, content=node.to_dict())
+        return JSONResponse(status_code=200, content=node.to_dict())
     except ValueError:
         return JSONResponse(status_code=400, content=error400)
     except LookupError:
         return JSONResponse(status_code=404, content=error404)
-    finally:
-        session.commit()
+
+
+@router.get('/sales')
+async def get_sales(date: Union[str, None] = None):
+    if not date:
+        return JSONResponse(status_code=400, content=error400)
+
+    try:
+        offers: list = service_functions.get_sales(date)
+        content = list(offer.to_dict() for offer in offers)
+        return JSONResponse(status_code=200, content=content)
+    except ValueError:
+        return JSONResponse(status_code=400, content=error400)

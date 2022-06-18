@@ -17,10 +17,10 @@ def test_offer():
         "id": "3fa85f64-5717-4562-b3fc-2c963f66a333",
         "name": "Test",
         "type": "OFFER",
-        "date": "2022-05-28T21:12:01+00:00",
+        "date": "2022-05-28T21:12:01.000+00:00",
         "price": 76,
         "parentId": None,
-        "children": []
+        "children": None
     }
 
     assert node.to_dict() == expected
@@ -88,7 +88,7 @@ def test_category_with_children():
         "id": "3fa85f64-5717-4562-b3fc-2c963f66a332",
         "name": "Test",
         "type": "CATEGORY",
-        "date": "2022-05-28T21:12:01+00:00",
+        "date": "2022-05-28T21:12:01.000+00:00",
         "price": 48,
         "parentId": None,
         "children": [
@@ -96,16 +96,16 @@ def test_category_with_children():
                 "id": "3fa85f64-5717-4562-b3fc-2c963f66a333",
                 "name": "Test",
                 "type": "OFFER",
-                "date": "2022-05-28T21:12:01+00:00",
+                "date": "2022-05-28T21:12:01.000+00:00",
                 "price": 76,
                 "parentId": "3fa85f64-5717-4562-b3fc-2c963f66a332",
-                "children": []
+                "children": None
             },
             {
                 "id": "3fa85f64-5717-4562-b3fc-2c963f66a334",
                 "name": "Test",
                 "type": "CATEGORY",
-                "date": "2022-05-28T21:12:01+00:00",
+                "date": "2022-05-28T21:12:01.000+00:00",
                 "price": 21,
                 "parentId": "3fa85f64-5717-4562-b3fc-2c963f66a332",
                 "children": [
@@ -113,28 +113,28 @@ def test_category_with_children():
                         "id": "3fa85f64-5717-4562-b3fc-2c963f66a335",
                         "name": "Test",
                         "type": "OFFER",
-                        "date": "2022-05-28T21:12:01+00:00",
+                        "date": "2022-05-28T21:12:01.000+00:00",
                         "price": 29,
                         "parentId": "3fa85f64-5717-4562-b3fc-2c963f66a334",
-                        "children": []
+                        "children": None
                     },
                     {
                         "id": "3fa85f64-5717-4562-b3fc-2c963f66a336",
                         "name": "Test",
                         "type": "OFFER",
-                        "date": "2022-05-28T21:12:01+00:00",
+                        "date": "2022-05-28T21:12:01.000+00:00",
                         "price": 13,
                         "parentId": "3fa85f64-5717-4562-b3fc-2c963f66a334",
-                        "children": []
+                        "children": None
                     },
                     {
                         "id": "3fa85f64-5717-4562-b3fc-2c963f66a337",
                         "name": "Test",
                         "type": "CATEGORY",
-                        "date": "2022-05-28T21:12:01+00:00",
+                        "date": "2022-05-28T21:12:01.000+00:00",
                         "price": None,
                         "parentId": "3fa85f64-5717-4562-b3fc-2c963f66a334",
-                        "children": []
+                        "children": None
                     },
 
                 ]
