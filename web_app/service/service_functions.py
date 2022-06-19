@@ -39,5 +39,11 @@ def get_sales(date: str, repo: repositories.AbstractRepository):
     return repo.get_sales(date_entity)
 
 
-def node_statistic(node_id, repo: repositories.AbstractRepository):
-    pass
+def node_statistic(node_id, dates, repo: repositories.AbstractRepository):
+    try:
+        date_start_entity = datetime.fromisoformat(dates[0].replace('Z', '+00:00'))
+        date_end_entity = datetime.fromisoformat(dates[1].replace('Z', '+00:00'))
+    except Exception:
+        raise ValueError
+
+    return repo.get_statistic(node_id, date_start_entity, date_end_entity)

@@ -35,8 +35,8 @@ async def import_nodes(request: Request):
             service_functions.import_node(node, repo)
         session.commit()
         return Response(status_code=200)
-    # except Exception:
-    #     return JSONResponse(status_code=400, content=error400)
+    except Exception:
+        return JSONResponse(status_code=400, content=error400)
     finally:
         session.commit()
 
@@ -86,3 +86,20 @@ async def get_sales(date: Union[str, None] = None):
         return JSONResponse(status_code=200, content=content)
     except ValueError:
         return JSONResponse(status_code=400, content=error400)
+
+
+@router.get('/node/{id}/statistic')
+async def get_statistic(id: str, dateStart: Union[str, None] = None, dateEnd: Union[str, None] = None):
+    session = get_session()
+    repo = settings.get_repository(session)
+
+    if not (dateStart and dateEnd):
+        return JSONResponse(status_code=400, content=error400)
+
+    try:
+        data = service_functions.node_statistic(id, (dateStart, dateEnd), repo)
+        return JSONResponse(status_code=200, content={"items": list(node.to_dict() for node in data)})
+    except ValueError:
+        return JSONResponse(status_code=400, content=error404)
+    except LookupError:
+        return JSONResponse(status_code=404, content=error404)

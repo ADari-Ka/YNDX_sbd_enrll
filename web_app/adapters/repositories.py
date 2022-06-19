@@ -46,6 +46,16 @@ class SQLalchemyRepository(AbstractRepository):
 
         return result
 
+    def get_statistic(self, node_uid: str, date_start: datetime.datetime, date_end: datetime.datetime):
+        result = []
+
+        nodes = self.session.query(OfferAndCategory).filter_by(uid=node_uid).all()
+        for node in nodes:
+            if date_start <= datetime.datetime.fromisoformat(node.date) <= date_end:
+                result.append(node)
+
+        return result
+
     def add(self):
         pass
 
@@ -83,16 +93,10 @@ class SQLalchemyRepository(AbstractRepository):
 
         current_node = nodes[0]
 
-        # children = self.session.query(OfferAndCategory).filter_by(parentId=node_id).all()
-
         if current_node.children:
-            for node_uid in current_node.children:
-                if self.session.query(OfferAndCategory).filter_by(parentId=node_uid).all():
-                    self.delete(node_uid)
-                node = self.session.query(OfferAndCategory).filter_by(uid=node_uid).one()
+            for node in current_node.children:
+                if node.children:
+                    self.delete(node.uid)
                 self.session.delete(node)
-
-        # if current_node.parentId:
-        #     self.session.query(OfferAndCategory).filter(uid=current_node.parentId).one().remove_child(current_node)
 
         self.session.delete(current_node)
