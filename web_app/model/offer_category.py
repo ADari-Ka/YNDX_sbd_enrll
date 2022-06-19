@@ -22,6 +22,15 @@ class OfferAndCategory:
 
         self.children = list()
 
+        self.parent = None
+
+    def update_date(self, date):
+        self.date = date
+        if not self.parent or self.parent.uid == "-1":
+            return
+        else:
+            self.parent.update_date(date)
+
     def add_parent(self, parent_id: str):
         self.parentId = parent_id
 
@@ -37,29 +46,32 @@ class OfferAndCategory:
 
     def get_price(self):
         if self.type == "OFFER":
-            return self.price
+            return self.price, 1
         else:
             if not self.children:
-                return None
+                return 0, 0
             else:
-                count, summ = 0, 0
+                summ = 0
+                count = 0
                 for node in self.children:
-                    price = node.get_price()
-                    summ += price if price else 0
-                    count += 1 if price else 0
-
-                return int(summ / count)
+                    temp = node.get_price()
+                    summ += temp[0]
+                    count += temp[1]
+                return summ, count
 
     def __str__(self):
         return self.uid
 
     def __add__(self, other):
         self.name = other.name
-        self.date = other.date
         self.parentId = other.parentId
         self.type = other.type
         self.price = other.price
-        # self.children = other.children
+
+        self.parent = other.parent
+        self.children = other.children
+
+        self.update_date(other.date)
 
     def to_dict(self) -> dict:
         result = {}
@@ -68,7 +80,8 @@ class OfferAndCategory:
         result["type"] = self.type
         result["name"] = self.name
         result["date"] = self.date
-        result["price"] = self.get_price()
+        p = self.get_price()
+        result["price"] = int(p[0] / p[1])
 
         result["parentId"] = self.parentId if self.parentId != "-1" else None
 

@@ -25,7 +25,7 @@ def configure_mappers():
                                                        properties={
                                                            "children": relationship(
                                                                OfferAndCategory,
-                                                               backref=backref("parents", remote_side=[node_table.c.uid])
+                                                               backref=backref("parent", remote_side=[node_table.c.uid])
                                                            )
                                                        }
                                                        )

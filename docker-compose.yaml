@@ -4,9 +4,10 @@ services:
   web_app:
     build: .
     ports:
-      - 8080:8080
+      - 8080:80
     depends_on:
       - postgres_db
+    restart: on-failure
 
   postgres_db:
     image: postgres

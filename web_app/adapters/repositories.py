@@ -68,14 +68,13 @@ class SQLalchemyRepository(AbstractRepository):
             # if existed_node.parentId == -1 and node.parentId:
                 # self.session.query(OfferAndCategory).filter(uid=node.parentId).one().remove_child(node)
 
-            existed_node = existed_node + node
+            existed_node + node
         else:
             self.session.add(node)
 
         if parent:
-            # node.parents.append(parent)
             parent.children.append(node)
-            # parent.add_child(node)
+            parent.update_date(node.date)
 
     def delete(self, node_id):
         nodes = self.session.query(OfferAndCategory).filter_by(uid=node_id).all()

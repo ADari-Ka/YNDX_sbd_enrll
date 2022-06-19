@@ -35,8 +35,8 @@ async def import_nodes(request: Request):
             service_functions.import_node(node, repo)
         session.commit()
         return Response(status_code=200)
-    except Exception:
-        return JSONResponse(status_code=400, content=error400)
+    # except Exception:
+    #     return JSONResponse(status_code=400, content=error400)
     finally:
         session.commit()
 
@@ -74,11 +74,14 @@ async def get_node(id: str):
 
 @router.get('/sales')
 async def get_sales(date: Union[str, None] = None):
+    session = get_session()
+    repo = settings.get_repository(session)
+
     if not date:
         return JSONResponse(status_code=400, content=error400)
 
     try:
-        offers: list = service_functions.get_sales(date)
+        offers: list = service_functions.get_sales(date, repo)
         content = list(offer.to_dict() for offer in offers)
         return JSONResponse(status_code=200, content=content)
     except ValueError:
