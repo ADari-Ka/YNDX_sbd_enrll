@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-URL = "http://web_app:8080"
+URL = "http://web_app:80"
 
 
 def test_new_category_import_correct():
@@ -176,7 +176,7 @@ def test_update_category_import():
 
 
 def test_delete_node_correct():
-    r = requests.delete(URL + '/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269df1')
+    r = requests.delete(URL + '/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269df2')
 
     assert r.status_code == 200
 

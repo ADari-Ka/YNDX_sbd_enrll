@@ -17,7 +17,7 @@ class AbstractSettings:
 class ProductionSettings(AbstractSettings):
     app_url = '0.0.0.0:8080'
 
-    db_name = 'yndxe'  # idk how to make dependence between config and docker-compose files
+    db_name = 'yndxe'
     db_user = 'adarika'
     db_password = 'imgoingtothebackendschool'
     db_host = 'postgres_db'

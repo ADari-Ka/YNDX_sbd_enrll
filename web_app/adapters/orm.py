@@ -5,7 +5,7 @@ from model import OfferAndCategory, History
 
 mapper_registry = registry()
 
-
+# table of History class
 history_table = Table(
     "history",
     mapper_registry.metadata,
@@ -18,7 +18,7 @@ history_table = Table(
     Column("price", Integer)
 )
 
-
+# table of Node class; self-referenced by parent-children fields
 node_table = Table(
     "node",
     mapper_registry.metadata,
@@ -32,7 +32,12 @@ node_table = Table(
 
 
 def configure_mappers():
-    if not mapper_registry.mappers:
+    """
+    Create mappers for domain models
+
+    :return:
+    """
+    if not mapper_registry.mappers:  #
         node_mapper = mapper_registry.map_imperatively(OfferAndCategory,
                                                        node_table,
                                                        properties={
@@ -46,10 +51,22 @@ def configure_mappers():
 
 
 def create_all(db_engine):
+    """
+    Creates tables in DataBase by registry metadata
+
+    :param db_engine:
+    :return:
+    """
     mapper_registry.metadata.create_all(bind=db_engine)
 
 
 def base_node_create(session):
+    """
+    Create base parent node to avoid inserting errors
+
+    :param session: DataBase session for managing data
+    :return:
+    """
     if session.query(OfferAndCategory).filter_by(uid="-1").all():
         return
 

@@ -14,7 +14,6 @@ settings = config.get_settings()
 db_engine = create_engine(settings.get_postgres_uri())
 get_session = sessionmaker(bind=db_engine)
 
-orm.mapper_registry.metadata.create_all(bind=db_engine)
+orm.create_all(db_engine)
 orm.configure_mappers()
-
 orm.base_node_create(get_session())

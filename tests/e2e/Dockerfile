@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY ./ ./
 
-ENTRYPOINT ["python", "-m", "pytest", "-v", "main.py"]
+ENTRYPOINT ["python", "-m", "pytest", "main.py"]

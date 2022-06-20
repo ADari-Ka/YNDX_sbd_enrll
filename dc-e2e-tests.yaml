@@ -2,6 +2,9 @@ version: "3.8"
 
 services:
   test_client:
+    environment:
+      PYTEST_TIMEOUT: 300
     build: tests/e2e/
     depends_on:
       - web_app
+      - postgres_db

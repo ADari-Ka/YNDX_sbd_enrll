@@ -89,7 +89,7 @@ def test_category_with_children():
         "name": "Test",
         "type": "CATEGORY",
         "date": "2022-05-28T21:12:01.000+00:00",
-        "price": 48,
+        "price": 39,
         "parentId": None,
         "children": [
             {

@@ -3,6 +3,8 @@ import dataclasses
 
 @dataclasses.dataclass
 class History:
+    """Class for storing history records of nodes updates"""
+
     uid: str
     name: str
     date: str
@@ -11,13 +13,8 @@ class History:
     price: int
 
     def to_dict(self) -> dict:
-        res = {
-            "uid": self.uid,
-            "name": self.name,
-            "type": self.type,
-            "date": self.date,
-            "price": self.price
-        }
+        res = {"uid": self.uid, "name": self.name, "type": self.type, "date": self.date,
+               "price": self.price if self.price else None}
 
         if self.parentId != "-1":
             res["parentId"] = self.parentId
