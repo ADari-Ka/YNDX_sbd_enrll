@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 class OfferAndCategory:
     uid: str
     name: str
@@ -73,7 +70,7 @@ class OfferAndCategory:
 
         self.update_date(other.date)
 
-    def to_dict(self) -> dict:
+    def to_dict(self, need_children: bool = True) -> dict:
         result = {}
 
         result["id"] = self.uid
@@ -85,12 +82,13 @@ class OfferAndCategory:
 
         result["parentId"] = self.parentId if self.parentId != "-1" else None
 
-        result["children"] = []
+        if need_children:
+            result["children"] = []
 
-        if self.children:
-            for node in self.children:
-                result["children"].append(node.to_dict())
+            if self.children:
+                for node in self.children:
+                    result["children"].append(node.to_dict())
 
-        result["children"] = result["children"] if result["children"] else None
+            result["children"] = result["children"] if result["children"] else None
 
         return result

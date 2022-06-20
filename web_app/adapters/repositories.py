@@ -1,7 +1,7 @@
 import abc
 import datetime
 
-from model import OfferAndCategory
+from model import OfferAndCategory, History
 
 
 class AbstractRepository(abc.ABC):
@@ -49,7 +49,7 @@ class SQLalchemyRepository(AbstractRepository):
     def get_statistic(self, node_uid: str, date_start: datetime.datetime, date_end: datetime.datetime):
         result = []
 
-        nodes = self.session.query(OfferAndCategory).filter_by(uid=node_uid).all()
+        nodes = self.session.query(History).filter_by(uid=node_uid).all()
         for node in nodes:
             if date_start <= datetime.datetime.fromisoformat(node.date) <= date_end:
                 result.append(node)
@@ -81,6 +81,15 @@ class SQLalchemyRepository(AbstractRepository):
             existed_node + node
         else:
             self.session.add(node)
+
+        history_record = History(
+            uid=node.uid,
+            name=node.name,
+            parentId=node.parentId,
+            type=node.type,
+            price=node.get_price(),
+            date=node.date
+        )
 
         if parent:
             parent.children.append(node)

@@ -79,10 +79,9 @@ async def get_sales(date: Union[str, None] = None):
 
     if not date:
         return JSONResponse(status_code=400, content=error400)
-
     try:
         offers: list = service_functions.get_sales(date, repo)
-        content = list(offer.to_dict() for offer in offers)
+        content = list(offer.to_dict(need_children=False) for offer in offers)
         return JSONResponse(status_code=200, content=content)
     except ValueError:
         return JSONResponse(status_code=400, content=error400)
@@ -98,7 +97,7 @@ async def get_statistic(id: str, dateStart: Union[str, None] = None, dateEnd: Un
 
     try:
         data = service_functions.node_statistic(id, (dateStart, dateEnd), repo)
-        return JSONResponse(status_code=200, content={"items": list(node.to_dict() for node in data)})
+        return JSONResponse(status_code=200, content={"items": list(history_node.to_dict() for history_node in data)})
     except ValueError:
         return JSONResponse(status_code=400, content=error404)
     except LookupError:

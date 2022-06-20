@@ -1,9 +1,22 @@
 from sqlalchemy import Table, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import registry, relationship, backref
 
-from model import OfferAndCategory
+from model import OfferAndCategory, History
 
 mapper_registry = registry()
+
+
+history_table = Table(
+    "history",
+    mapper_registry.metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("uid", String, nullable=False),
+    Column("name", String, nullable=False),
+    Column("parentId", String),
+    Column("type", String, nullable=False),
+    Column("date", String, nullable=False),
+    Column("price", Integer)
+)
 
 
 node_table = Table(
@@ -29,6 +42,7 @@ def configure_mappers():
                                                            )
                                                        }
                                                        )
+        history_mapper = mapper_registry.map_imperatively(History, history_table)
 
 
 def create_all(db_engine):
