@@ -19,7 +19,7 @@ class OfferAndCategory:
         self.parentId = '-1'
         self.price = 0
 
-        self.date = date
+        self.update_date(date)
 
         self.children = list()
 

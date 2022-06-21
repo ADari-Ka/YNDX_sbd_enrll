@@ -4,6 +4,10 @@ import requests
 URL = "http://web_app:80"
 
 
+def test_connection():
+    requests.get(URL)
+
+
 def test_new_category_import_correct():
     data = {
         "items": [
@@ -162,12 +166,32 @@ def test_update_category_import():
         "items": [
             {
                 "type": "CATEGORY",
-                "name": "Test",
-                "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269dfa"
+                "name": "Test-Update",
+                "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df9"
             }
         ],
         "updateDate":
-            "2022-02-02T12:00:00.000Z"
+            "2022-03-02T12:00:00.000Z"
+    }
+
+    r = requests.post(URL + '/imports', json=data)
+
+    assert r.status_code == 200
+
+
+def test_update_category_with_new_child():
+    data = {
+        "items": [
+            {
+                "type": "OFFER",
+                "name": "Test",
+                "id": "059cb8d7-bbdd-47d3-ad8f-82ef4c269dfa",
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df9",
+                "price": 55
+            }
+        ],
+        "updateDate":
+            "2022-04-02T12:00:00.000Z"
     }
 
     r = requests.post(URL + '/imports', json=data)

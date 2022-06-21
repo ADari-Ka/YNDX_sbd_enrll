@@ -39,11 +39,11 @@ def node_create(data: dict, date: str) -> OfferAndCategory:
             raise ValueError
         node.add_price(data['price'])
 
-    if node.type == "CATEGORY" and "price" in data.keys():
+    if node.type == "CATEGORY" and "price" in data.keys() and data["price"]:
         # "CATEGORY" type can not have a user-defined price
         raise AttributeError
 
-    if node.type == "OFFER" and "price" not in data.keys():
+    if node.type == "OFFER" and ("price" not in data.keys() or data["price"] is None):
         # but "OFFER" type should have price field
         raise AttributeError
 

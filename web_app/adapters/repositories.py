@@ -129,21 +129,25 @@ class SQLalchemyRepository(AbstractRepository):
             if parent.type == "OFFER":
                 raise AttributeError  # because parent's type can not be "OFFER"
 
-        existed_: List[OfferAndCategory, None] = self.session.query(OfferAndCategory).filter_by(uid=node.uid).all()
+        e_node = None
+        existed_node: Union[OfferAndCategory, None] = \
+            self.session.query(OfferAndCategory).filter_by(uid=node.uid).all()
         # gets node if it exists and update info in the NODE table in DataBase by id
-        if existed_:
-            existed_node: OfferAndCategory = existed_[0]
-            if existed_node.type != node.type:
+
+        if existed_node:
+            e_node = existed_node[0]
+            if e_node.type != node.type:
                 raise AttributeError  # because we can not change node's type
 
-            existed_node + node  # update existed node's info
+            e_node + node
+            self.session.add(e_node)
         else:
             self.session.add(node)
 
         self.add(node)
 
         if parent:  # manage relations
-            parent.children.append(node)
+            parent.children.append(node if not e_node else e_node)
             parent.update_date(node.date)
 
     def delete(self, node_id: str):
