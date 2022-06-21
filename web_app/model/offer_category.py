@@ -90,9 +90,6 @@ class OfferAndCategory:
         self.type = other.type
         self.price = other.price
 
-        self.parent = other.parent
-        self.children = other.children
-
         self.update_date(other.date)
 
     def to_dict(self, need_children: bool = True) -> dict:

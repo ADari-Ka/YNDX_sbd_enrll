@@ -13,7 +13,7 @@ class History:
     price: int
 
     def to_dict(self) -> dict:
-        res = {"uid": self.uid, "name": self.name, "type": self.type, "date": self.date,
+        res = {"id": self.uid, "name": self.name, "type": self.type, "date": self.date,
                "price": self.price if self.price else None}
 
         if self.parentId != "-1":

@@ -45,10 +45,13 @@ def get_sales(date: str, repo: repositories.AbstractRepository) -> List[OfferAnd
 
 
 def node_statistic(node_id, dates, repo: repositories.AbstractRepository) -> List[History]:
-    try:  # validate date format
-        date_start_entity = datetime.fromisoformat(dates[0].replace('Z', '+00:00'))
-        date_end_entity = datetime.fromisoformat(dates[1].replace('Z', '+00:00'))
-    except Exception:
-        raise ValueError
+    if all(dates):
+        try:  # validate date format
+            date_start_entity = datetime.fromisoformat(dates[0].replace('Z', '+00:00'))
+            date_end_entity = datetime.fromisoformat(dates[1].replace('Z', '+00:00'))
+        except Exception:
+            raise ValueError
 
-    return repo.get_statistic(node_id, date_start_entity, date_end_entity)
+        return repo.get_statistic(node_id, date_start_entity, date_end_entity)
+    else:
+        return repo.get_statistic(node_id)

@@ -61,19 +61,20 @@ class SQLalchemyRepository(AbstractRepository):
         """
         result = []
 
-        nodes: List[OfferAndCategory] = self.session.query(OfferAndCategory).filter_by(type="OFFER").all()
+        history_records: List[History] = self.session.query(History).filter_by(type="OFFER").all()
 
-        if not nodes:
+        if not history_records:
             raise LookupError
 
-        for node in nodes:
+        for node in history_records:
             if date + datetime.timedelta(days=-1) <= datetime.datetime.fromisoformat(node.date) <= date:
                 result.append(node)
 
         return result
 
-    def get_statistic(self, node_uid: str, date_start: datetime.datetime, date_end: datetime.datetime) \
-            -> List[OfferAndCategory]:
+    def get_statistic(self, node_uid: str,
+                      date_start: Union[datetime.datetime, None] = None,
+                      date_end: Union[datetime.datetime, None] = None) -> List[OfferAndCategory]:
         """
         Gets array with full history of updates (in given interval) of a certain node
 
@@ -89,9 +90,12 @@ class SQLalchemyRepository(AbstractRepository):
         if not nodes:
             raise LookupError
 
-        for node in nodes:
-            if date_start <= datetime.datetime.fromisoformat(node.date) < date_end:
-                result.append(node)
+        if all((date_start, date_end)):
+            for node in nodes:
+                if date_start <= datetime.datetime.fromisoformat(node.date) < date_end:
+                    result.append(node)
+        else:  # gets all history records about the node
+            return nodes
 
         return result
 
@@ -167,11 +171,10 @@ class SQLalchemyRepository(AbstractRepository):
             for node in current_node.children:
                 if node.children:
                     self.delete(node.uid)
+
+                self.session.query(History).filter_by(uid=node.uid).delete()
                 self.session.delete(node)
 
         self.session.delete(current_node)
+        self.session.query(History).filter_by(uid=current_node.uid).delete()
 
-        history_records: List[History] = self.session.query(History).filter_by(uid=node_id).all()
-
-        for record in history_records:
-            self.session.delete(record)
