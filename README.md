@@ -45,6 +45,7 @@ You can run ***end-to-end tests***, please use this command:
     
     docker-compose -f docker-compose.yaml -f dc-e2e-tests.yaml up --build --abort-on-container-exit
 
+> It doesn't work correctly with slow connection speed
 They can also contain integration part of testing as well
 
 Covered features are:
