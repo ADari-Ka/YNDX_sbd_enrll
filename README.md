@@ -24,7 +24,7 @@ To run wep-app with PostgreSQL database you can launch Docker containers **via D
 Use this command in your terminal *(in case you launch Docker deamon under sudo access, be sure to startup your containers with the same rights)*:
 
 
-    docker-compouse up --build
+    docker-compose up --build
 
 By default, on your machine you can access to web-server by http://127.0.0.1:8080
 
