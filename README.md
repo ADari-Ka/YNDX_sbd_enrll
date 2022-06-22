@@ -2,13 +2,13 @@
 
 
 ### Architecture
-In **root directory** there are important for launch files:
+In a **root directory** there are important for launch files:
 - Dockerfile & docker-compose.yaml (and compose files for testing)
 - requirements.txt (used libraries and their versions)
 - ignore files (.gitignore and .dockerignore)
 - README.md with instructions
 
-**Folder tests** contains tests: end-to-end and unit. Also, in e2e there are another Dockerfile and requirements files for launching end-to-end tests.
+**Folder "tests"** contains the following types of tests: end-to-end and unit. Also, in e2e there are another Dockerfile and requirements files for launching end-to-end tests.
 
 **Web_app** has all server files in child directories with _config.py_ file. 
 
@@ -21,7 +21,7 @@ You also can see here the layers' division:
 ### Launch 
 To run wep-app with PostgreSQL database you can launch Docker containers **via Docker-compose** 
 
-Use this command in your terminal *(if it doesn't work, use sudo also)*:
+Use this command in your terminal *(in case you launch Docker deamon under sudo access, be sure to startup your containers with the same rights)*:
 
 
     docker-compouse up --build
