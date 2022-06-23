@@ -64,7 +64,7 @@ class SQLalchemyRepository(AbstractRepository):
         history_records: List[History] = self.session.query(History).filter_by(type="OFFER").all()
 
         if not history_records:
-            raise LookupError
+            return result
 
         for node in history_records:
             if date + datetime.timedelta(days=-1) <= datetime.datetime.fromisoformat(node.date) <= date:
