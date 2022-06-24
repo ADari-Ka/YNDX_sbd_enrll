@@ -294,6 +294,69 @@ def test_delete_node_correct_cascade():
 """ END OF MAIN BLOCK """
 
 
+def test_sales_two_updates():
+    data = {
+        "items": [
+            {
+                "type": "OFFER",
+                "name": "Test",
+                "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
+                "price": 10,
+            }
+        ],
+        "updateDate":
+            "2022-02-02T11:10:00.000Z"
+    }
+
+    requests.post(URL + '/imports', json=data)
+
+    data = {
+        "items": [
+            {
+                "type": "OFFER",
+                "name": "Test-UPD",
+                "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
+                "price": 11
+            }
+        ],
+        "updateDate":
+            "2022-02-02T11:30:00.000Z"
+    }
+
+    requests.post(URL + '/imports', json=data)
+
+    expected = {
+        "items": [
+            {
+                "type": "OFFER",
+                "name": "Test-UPD",
+                "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
+                "price": 11,
+                "parentId": None,
+                "date": "2022-02-02T11:30:00.000+00:00"
+            }
+        ]
+    }
+
+    r = requests.get(URL + '/sales?date=2022-02-02T11:35:00.000Z')
+
+    assert r.status_code == 200
+    assert r.json() == expected
+
+    requests.delete(URL + '/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269df1')
+
+
+def test_empty_sales():
+    expected = {
+        "items": []
+    }
+
+    r = requests.get(URL + '/sales?date=2022-02-02T12:00:00.000Z')
+
+    assert r.status_code == 200
+    assert r.json() == expected
+
+
 def test_get_deleted_node():
     r = requests.get(URL + '/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269df2')
 
