@@ -60,15 +60,22 @@ class SQLalchemyRepository(AbstractRepository):
         :return:
         """
         result = []
+        node_ids = set()
 
         history_records: List[History] = self.session.query(History).filter_by(type="OFFER").all()
 
         if not history_records:
             return result
 
+        history_records.reverse()
+
         for node in history_records:
             if date + datetime.timedelta(days=-1) <= datetime.datetime.fromisoformat(node.date) <= date:
-                result.append(node)
+                if node.uid not in node_ids:
+                    result.append(node)
+                    node_ids.add(node.uid)
+
+        result.reverse()
 
         return result
 
